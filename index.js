@@ -39,3 +39,5 @@ mongoose.connect(
     .catch(err => console.error('No se puede conectar a MongoDB', err))
 
 app.listen(3000);
+
+//majirriz20_db_user:l4C8zaHiThycXUxl@closter311.fyaiacn.mongodb.net/
