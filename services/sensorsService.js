@@ -1,7 +1,7 @@
 const boom = require('@hapi/boom');
-const Sensor = require();
-const Device = require();
-const Reading = require();
+const Sensor = require('../models/sensor.model');
+const Device = require('../models/device.model');
+const Reading = require('../models/reading.model');
 
 class SensorsService {
 
