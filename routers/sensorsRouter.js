@@ -1,5 +1,5 @@
 const express = require('express');
-const SensorsService = require('../services/sensorsServices');
+const SensorsService = require('../services/sensorsService');
 
 const router = express.Router();
 const service = new SensorsService();
@@ -19,7 +19,7 @@ const service = new SensorsService();
  *           enum: [temperature, humidity, co2, noise]
  *         unit:
  *           type: string
- *           enum: ["°C", "%", "ppm"]
+ *           enum: ["°C", "%", "ppm", "dB"]
  *         model:
  *           type: string
  *           example: "TX-100"
@@ -30,7 +30,6 @@ const service = new SensorsService();
  *           type: boolean
  *           example: true
  *
- *   schemas:
  *     BadRequestError:
  *       type: object
  *       properties:
@@ -52,6 +51,7 @@ const service = new SensorsService();
  *   name: sensors
  *   description: Endpoints para la gestión de sensores
  */
+
 
 /**
  * @swagger

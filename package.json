@@ -14,9 +14,11 @@
   "type": "commonjs",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
+    "bcryptjs": "^3.0.3",
     "body-parser": "^2.2.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "mongoose": "^9.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },

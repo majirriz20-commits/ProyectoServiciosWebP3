@@ -8,7 +8,7 @@ const cors = require('cors');
 const {logErrors, errorHandler} = require('./middlewareas/errorHandler');
 //Swagger
 const setupSwagger = require("./swagger");
-const port = 3000;
+const port = 4000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -34,10 +34,10 @@ app.listen(port, () =>{
 
 //Conexion a Mongo
 mongoose.connect(
-    '')
+    'mongodb+srv://majirriz20_db_user:l4C8zaHiThycXUxl@closter311.fyaiacn.mongodb.net/?retryWrites=true&w=majority&appName=closter311')
     .then(() => console.log('Conexion a MongoDB exitos'))
     .catch(err => console.error('No se puede conectar a MongoDB', err))
 
 app.listen(3000);
 
-//majirriz20_db_user:l4C8zaHiThycXUxl@closter311.fyaiacn.mongodb.net/
+
