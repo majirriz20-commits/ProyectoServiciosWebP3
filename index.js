@@ -13,8 +13,8 @@ const port = 4000;
 app.use(cors());
 app.use(bodyParser.json());
 
-//Swagger
 setupSwagger(app);
+
 
 app.get("/", (req, res)=>{
   res.send("Hola desde el server de express");
@@ -26,7 +26,7 @@ routerApi(app);
 //middlewareas
 app.use(logErrors);
 app.use(errorHandler);
-app.use(errorHandler);
+
 
 app.listen(port, () =>{
   console.log("My port is working on: " + port);
@@ -38,6 +38,6 @@ mongoose.connect(
     .then(() => console.log('Conexion a MongoDB exitos'))
     .catch(err => console.error('No se puede conectar a MongoDB', err))
 
-app.listen(3000);
+
 
 

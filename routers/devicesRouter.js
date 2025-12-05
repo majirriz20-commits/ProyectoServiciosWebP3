@@ -15,9 +15,6 @@ const service = new DevicesService();
  *         - ownerId
  *         - zoneId
  *       properties:
- *         _id:
- *           type: string
- *           description: ID del dispositivo
  *         serialNumber:
  *           type: string
  *           description: Número de serie único del dispositivo
@@ -65,7 +62,7 @@ const service = new DevicesService();
  */
 router.get('/', async (req, res, next) => {
   try {
-    const devices = await service.find();
+    const devices = await service.getAll();
     res.json(devices);
   } catch (error) {
     next(error);
@@ -100,7 +97,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const device = await service.findOne(id);
+    const device = await service.getById(id);
     res.json(device);
   } catch (error) {
     next(error);
@@ -156,6 +153,8 @@ router.post('/', async (req, res, next) => {
  *           schema:
  *             type: object
  *             properties:
+ *               serialNumber:
+ *                type: string
  *               model:
  *                 type: string
  *               status:

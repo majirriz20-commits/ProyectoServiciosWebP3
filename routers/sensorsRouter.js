@@ -10,39 +10,30 @@ const service = new SensorsService();
  *   schemas:
  *     Sensor:
  *       type: object
+ *       required:
+ *         - type
+ *         - unit
+ *         - model
+ *         - location
+ *         - isActive
  *       properties:
- *         id:
- *           type: string
- *           example: "672f912a7d33af4df1aa1200"
  *         type:
  *           type: string
  *           enum: [temperature, humidity, co2, noise]
+ *           description: Tipo de sensor
  *         unit:
  *           type: string
- *           enum: ["°C", "%", "ppm", "dB"]
+ *           enum: ["°C", "%", "ppm"]
+ *           description: Unidad de medida
  *         model:
  *           type: string
- *           example: "TX-100"
+ *           description: Modelo del sensor
  *         location:
  *           type: string
- *           example: "20.9163, -101.3734"
+ *           description: Ubicación en lat/lng
  *         isActive:
  *           type: boolean
- *           example: true
- *
- *     BadRequestError:
- *       type: object
- *       properties:
- *         message:
- *           type: string
- *           example: "Solicitud inválida"
- *
- *     ServerError:
- *       type: object
- *       properties:
- *         message:
- *           type: string
- *           example: "Error interno del servidor"
+ *           description: Estado del sensor
  */
 
 /**
@@ -164,12 +155,40 @@ router.get('/:id', async (req, res, next) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: "#/components/schemas/Sensor"
+ *             type: object
+ *             required:
+ *               - type
+ *               - unit
+ *               - model
+ *               - location
+ *               - isActive
+ *             properties:
+ *               type:
+ *                 type: string
+ *                 enum: [temperature, humidity, co2, noise]
+ *                 description: Tipo de sensor
+ *               unit:
+ *                 type: string
+ *                 enum: ["°C", "%", "ppm"]
+ *                 description: Unidad de medida
+ *               model:
+ *                 type: string
+ *                 description: Modelo del sensor
+ *               location:
+ *                 type: string
+ *                 description: Ubicación en formato lat,lng
+ *               isActive:
+ *                 type: boolean
+ *                 description: Estado del sensor
  *     responses:
  *       201:
  *         description: Sensor creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Sensor'
  *       400:
- *         description: Datos inválidos enviados
+ *         description: Datos inválidos o ubicación mal formada
  *       500:
  *         description: Error interno del servidor
  */
@@ -193,20 +212,41 @@ router.post('/', async (req, res, next) => {
  *       - in: path
  *         name: id
  *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del sensor a actualizar
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               type:
+ *                 type: string
+ *               unit:
+ *                 type: string
+ *               model:
+ *                 type: string
+ *               location:
+ *                 type: string
+ *               isActive:
+ *                 type: boolean
  *     responses:
  *       200:
  *         description: Sensor actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Sensor'
  *       404:
  *         description: Sensor no encontrado
+ *       400:
+ *         description: Datos inválidos o ubicación mal formada
  *       500:
  *         description: Error interno del servidor
  */
+
 
 router.patch('/:id', async (req, res, next) => {
   try {

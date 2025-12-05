@@ -15,9 +15,6 @@ const service = new ReadingService();
  *         - time
  *         - value
  *       properties:
- *         _id:
- *           type: string
- *           description: ID del Reading
  *         sensorId:
  *           type: string
  *           description: ObjectId del Sensor asociado
@@ -29,7 +26,6 @@ const service = new ReadingService();
  *           type: number
  *           description: Valor leído por el sensor
  *       example:
- *         _id: "674d2a1291abf234abcd0987"
  *         sensorId: "673bd9120acff234abcd1234"
  *         time: "2025-01-12T15:32:10.000Z"
  *         value: 28.4
@@ -121,6 +117,17 @@ router.get('/:id', async (req, res, next) => {
  *     responses:
  *       201:
  *         description: Lectura creada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 sensorId:
+ *                   type: string
+ *                 time:
+ *                   type: string
+ *                 value:
+ *                   type: number
  *       400:
  *         description: ID de sensor no válido o faltan datos
  */

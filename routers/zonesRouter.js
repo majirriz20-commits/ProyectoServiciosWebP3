@@ -6,7 +6,31 @@ const service = new ZonesService();
 
 /**
  * @swagger
- * /api/zones:
+ * components:
+ *   schemas:
+ *     Zone:
+ *       type: object
+ *       required:
+ *         - name
+ *       properties:
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         isActive:
+ *           type: boolean
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Zones
+ *   description: Gestión de zonas
+ */
+
+/**
+ * @swagger
+ * /zones:
  *   get:
  *     summary: Obtiene todas las zonas
  *     tags: [Zones]
@@ -25,7 +49,7 @@ router.get('/', async (req, res, next) => {
 
 /**
  * @swagger
- * /api/zones/{id}:
+ * /zones/{id}:
  *   get:
  *     summary: Obtiene una zona por ID
  *     tags: [Zones]
@@ -33,8 +57,6 @@ router.get('/', async (req, res, next) => {
  *       - in: path
  *         name: id
  *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Zona encontrada
@@ -44,19 +66,17 @@ router.get('/', async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const zone = await service.getbyId(id);
-        if (!zone) {
-            return res.status(404).json({ message: "Zone Not Found" });
-        }
+        const zone = await service.getById(id);
         res.status(200).json(zone);
     } catch (error) {
         next(error);
     }
 });
 
+
 /**
  * @swagger
- * /api/zones:
+ * /zones:
  *   post:
  *     summary: Crea una nueva zona
  *     tags: [Zones]
@@ -65,22 +85,14 @@ router.get("/:id", async (req, res, next) => {
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               description:
- *                 type: string
- *               isActive:
- *                 type: boolean
+ *             $ref: '#/components/schemas/Zone'
  *     responses:
  *       201:
  *         description: Zona creada
  */
 router.post('/', async (req, res, next) => {
     try {
-        const body = req.body;
-        const newZone = await service.create(body);
+        const newZone = await service.create(req.body);
         res.status(201).json({
             message: "Zone Created",
             data: newZone
@@ -92,16 +104,15 @@ router.post('/', async (req, res, next) => {
 
 /**
  * @swagger
- * /api/zones/{id}:
- *   put:
- *     summary: Actualiza una zona por ID
+ * /zones/{id}:
+ *   patch:
+ *     summary: Actualiza parcialmente una zona por ID
  *     tags: [Zones]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         schema:
- *           type: string
+ *         description: ID de la zona a actualizar
  *     requestBody:
  *       required: true
  *       content:
@@ -111,33 +122,33 @@ router.post('/', async (req, res, next) => {
  *             properties:
  *               name:
  *                 type: string
+ *                 example: "Zona Norte"
  *               description:
  *                 type: string
+ *                 example: "Zona actualizada"
  *               isActive:
  *                 type: boolean
+ *                 example: true
  *     responses:
  *       200:
  *         description: Zona actualizada
- *       404:
- *         description: Zona no encontrada
  */
-router.put('/:id', async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const body = req.body;
-        const zone = await service.update(id, body);
+        const updated = await service.update(req.params.id, req.body);
         res.status(200).json({
             message: "Zone Updated",
-            data: zone
+            data: updated
         });
     } catch (error) {
         next(error);
     }
 });
 
+
 /**
  * @swagger
- * /api/zones/{id}:
+ * /zones/{id}:
  *   delete:
  *     summary: Elimina una zona por ID
  *     tags: [Zones]
@@ -145,22 +156,25 @@ router.put('/:id', async (req, res, next) => {
  *       - in: path
  *         name: id
  *         required: true
+ *         description: ID de la zona a eliminar
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Zona eliminada
+ *         description: Zona eliminada correctamente
  *       404:
  *         description: Zona no encontrada
  */
 router.delete('/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const respuesta = await service.delete(id);
+        const deleted = await service.delete(id);
+
         res.status(200).json({
             message: "Zone Deleted",
-            data: respuesta
+            data: deleted
         });
+
     } catch (error) {
         next(error);
     }

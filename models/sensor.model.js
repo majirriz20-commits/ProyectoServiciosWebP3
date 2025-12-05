@@ -31,12 +31,6 @@ const sensorSchema = new Schema({
     default: true
   },
 
-  deviceId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Device',
-    required: true
-  },
-
   installedAt: {
     type: Date,
     default: Date.now

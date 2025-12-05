@@ -1,6 +1,5 @@
 const boom = require('@hapi/boom');
 const Sensor = require('../models/sensor.model');
-const Device = require('../models/device.model');
 const Reading = require('../models/reading.model');
 
 class SensorsService {
@@ -18,10 +17,6 @@ class SensorsService {
 
     // Crear sensor
     async create(data) {
-        const deviceExists = await Device.findById(data.deviceId);
-        if (!deviceExists) {
-            throw boom.badRequest("El deviceId proporcionado no existe");
-        }
 
         if (!this.isValidLocation(data.location)) {
             throw boom.badRequest("La ubicación debe ser lat,lng en formato válido");
@@ -30,12 +25,7 @@ class SensorsService {
         return newSensor;
     }
     async updatePartial(id, changes) {
-        if (changes.deviceId) {
-            const deviceExists = await Device.findById(changes.deviceId);
-            if (!deviceExists) {
-                throw boom.badRequest("El deviceId proporcionado no existe");
-            }
-        }
+
         if (changes.location && !this.isValidLocation(changes.location)) {
             throw boom.badRequest("La ubicación debe ser lat,lng en formato válido");
         }
